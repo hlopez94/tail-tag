@@ -1,0 +1,14 @@
+$video-size: min(80vw, 320px);
+
+.qr-code-scanner {
+  width: $video-size;
+  height: $video-size;
+  margin: auto;
+
+  ::ng-deep .origin-video {
+    border-radius: 48px!important;
+    width:$video-size;
+    height:$video-size;
+  }
+
+}

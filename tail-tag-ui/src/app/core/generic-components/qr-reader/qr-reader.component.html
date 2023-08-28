@@ -1,0 +1,81 @@
+<!-- ngx-scanner-qrcode -->
+<ngx-scanner-qrcode
+  class="qr-code-scanner"
+  #action="scanner"
+  [config]="config"
+  (event)="onEvent($event, action)"
+></ngx-scanner-qrcode>
+
+<div id="controles-camara" align="center">
+  <button
+    id="btnToggleScanner"
+    #btnToggleScanner
+    mat-icon-button
+    [title]="!action.isStart ? 'Iniciar Lector QR' : 'Detener Lector QR'"
+    [disabled]="action.isLoading"
+    *ngIf="!this.action.isPause"
+    (click)="handle(action, action.isStart ? 'stop' : 'start')"
+  >
+    <mat-icon>{{
+      !action.isStart ? "qr_code_scanner" : "stop_circle"
+    }}</mat-icon>
+  </button>
+
+  <button
+    type="button"
+    id="btnRetryScanner"
+    #btnRetryScanner
+    mat-icon-button
+    title="Volver a Escanear QR"
+    *ngIf="this.action.isPause"
+    (click)="handle(action, 'play')"
+  >
+    <mat-icon> refresh </mat-icon>
+  </button>
+
+  <button
+    id="btn-toggle-flash"
+    mat-icon-button
+    [disabled]="!action.isStart"
+    (click)="action.isTorch = !action.isTorch; handle(action, 'torcher')"
+    [title]="!action.isTorch ? 'Encender Flash' : 'Apagar Flash'"
+  >
+    <mat-icon>{{ !action.isTorch ? "flash_on" : "flash_off" }}</mat-icon>
+  </button>
+  <ng-container
+    [ngSwitch]="(action.devices | async)?.length"
+    *ngIf="action.isStart"
+  >
+    <button
+      id="btn-camera-toggler"
+      *ngSwitchCase="2"
+      mat-icon-button
+      [disabled]="!action.isStart"
+      (click)="toggleCamera()"
+    >
+      <mat-icon>cameraswitch</mat-icon>
+    </button>
+    <span *ngSwitchCase="1"></span>
+    <button
+      id="btn-camera-selection-menu"
+      mat-icon-button
+      [matMenuTriggerFor]="cameras_selector"
+      aria-label="Listado de cámaras disponibles"
+      *ngSwitchDefault
+    >
+      <mat-icon>cameraswitch</mat-icon>
+    </button>
+    <mat-menu #cameras_selector="matMenu">
+      <button
+        id="btn-camara-selector-{{ i }}"
+        [disabled]="action.deviceIndexActive == i"
+        mat-menu-item
+        *ngFor="let device of action.devices | async; let i = index"
+        (click)="action.playDevice(this.action.devices.value[i].deviceId)"
+      >
+        <mat-icon>videocam</mat-icon>
+        <span>{{ device.label }}</span>
+      </button>
+    </mat-menu>
+  </ng-container>
+</div>

@@ -1,0 +1,25 @@
+<div align="middle">
+  <mat-form-field>
+    <mat-label>Inserte el tag presente en el collar:</mat-label>
+    <input
+      matInput
+      #inputTag
+      id="inputTag"
+      title="Ingreso de Tag"
+      placeholder="AB123456CD"
+      (submit)="cargarTag(inputTag.value)"
+      (keydown.enter)="cargarTag(inputTag.value)"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      [attr.aria-label]="'Enviar Tag'"
+      type="submit"
+      #btnEnviarTagManual
+      id="btnEnviarTagManual"
+      (click)="cargarTag(inputTag.value)"
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </mat-form-field>
+</div>

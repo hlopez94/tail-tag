@@ -1,0 +1,23 @@
+<h2 class="mat-title">¿Has encontrado a una mascota perdida?</h2>
+<h3 class="mat-subheading-2">
+  Ayuda a reunirla con su dueño eligiendo una opción para obtener los datos
+</h3>
+<div align="center">
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" id="buscadores-selector" #buscadorSelector="matButtonToggleGroup">
+    <mat-button-toggle value="code" id="buscador-selector-pin" color="primary">
+      <mat-icon>pin</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="qr" id="buscador-selector-qr">
+      <mat-icon>qr_code</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle disabled value="nfc" id="buscador-selector-nfc">
+      <mat-icon>nfc</mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div [ngSwitch]="buscadorSelector.value" style="padding:1em">
+  <app-localizador-qr *ngSwitchCase="'qr'"></app-localizador-qr>
+  <app-localizador-manual *ngSwitchCase="'code'"></app-localizador-manual>
+  <div *ngSwitchDefault></div>
+</div>
